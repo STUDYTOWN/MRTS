@@ -1,8 +1,3 @@
-// =====================================
-// STUDYTOWN - MAIN JAVASCRIPT
-// =====================================
-
-
 // Smooth scrolling for internal links
 
 document.querySelectorAll('a[href^="#"]').forEach(link => {
@@ -22,27 +17,6 @@ document.querySelectorAll('a[href^="#"]').forEach(link => {
       });
 
     }
-
-  });
-
-});
-
-
-// Class Explore Buttons
-
-const classButtons = document.querySelectorAll(
-  '.class-card .card-btn'
-);
-
-classButtons.forEach((button, index) => {
-
-  button.addEventListener('click', () => {
-
-    const classNumber = [10, 11, 12][index];
-
-    alert(
-      `कक्षा ${classNumber} के Courses जल्द उपलब्ध होंगे!`
-    );
 
   });
 
