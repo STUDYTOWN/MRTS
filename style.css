@@ -681,3 +681,7 @@ footer p {
   }
 
 }
+.card-btn {
+  display: inline-block;
+  text-decoration: none;
+}
