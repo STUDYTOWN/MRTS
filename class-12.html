@@ -7,6 +7,189 @@
   <title>Class 12 | StudyTown</title>
 
   <link rel="stylesheet" href="style.css">
+  <style>
+
+/* CLASS 12 HERO */
+
+.class-page-hero {
+  padding: 100px 8%;
+  text-align: center;
+  background:
+    radial-gradient(circle at top, #e3efe5, transparent 45%),
+    #f7f7f3;
+}
+
+.class-page-hero > div {
+  max-width: 750px;
+  margin: auto;
+}
+
+.class-page-hero h1 {
+  font-size: 70px;
+  color: #183d2c;
+  margin-bottom: 15px;
+}
+
+.class-page-hero h1 span {
+  color: #d86b2b;
+}
+
+.class-page-hero p {
+  color: #657068;
+  font-size: 18px;
+  margin-bottom: 30px;
+}
+
+
+/* SUBJECT SECTION */
+
+.subjects-section {
+  background: white;
+}
+
+
+/* SUBJECT GRID */
+
+.subject-grid {
+  max-width: 1150px;
+  margin: auto;
+
+  display: grid;
+
+  grid-template-columns:
+    repeat(3, 1fr);
+
+  gap: 25px;
+}
+
+
+/* SUBJECT CARDS */
+
+.subject-card {
+  display: block;
+
+  text-decoration: none;
+
+  color: #183d2c;
+
+  padding: 30px;
+
+  border-radius: 20px;
+
+  border: 1px solid #e7e7e0;
+
+  min-height: 220px;
+
+  transition: 0.3s;
+}
+
+
+.subject-card:hover {
+
+  transform: translateY(-7px);
+
+  box-shadow:
+    0 15px 35px
+    rgba(24, 61, 44, 0.12);
+
+}
+
+
+.subject-icon {
+
+  font-size: 45px;
+
+  margin-bottom: 15px;
+
+}
+
+
+.subject-card h3 {
+
+  font-size: 24px;
+
+  color: #183d2c;
+
+  margin-bottom: 10px;
+
+}
+
+
+.subject-card p {
+
+  font-size: 15px;
+
+  color: #69736c;
+
+  margin-bottom: 15px;
+
+}
+
+
+.subject-card span {
+
+  display: inline-block;
+
+  margin-top: 10px;
+
+  color: #d86b2b;
+
+  font-weight: 700;
+
+}
+
+
+/* CARD BACKGROUND COLORS */
+
+.subject-card.hindi {
+  background: #fff7f1;
+}
+
+.subject-card.english {
+  background: #f1f6ff;
+}
+
+.subject-card.physics {
+  background: #f2fbf8;
+}
+
+.subject-card.chemistry {
+  background: #fff4f4;
+}
+
+.subject-card.maths {
+  background: #f7f2ff;
+}
+
+.subject-card.biology {
+  background: #f2faef;
+}
+
+
+/* RESPONSIVE */
+
+@media (max-width: 900px) {
+
+  .subject-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+}
+
+
+@media (max-width: 600px) {
+
+  .class-page-hero h1 {
+    font-size: 50px;
+  }
+
+  .subject-grid {
+    grid-template-columns: 1fr;
+  }
+
+}
+
+</style>
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
