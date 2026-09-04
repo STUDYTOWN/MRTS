@@ -1,0 +1,683 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: "Poppins", "Hind", sans-serif;
+  background: #f7f7f3;
+  color: #1d2a24;
+  line-height: 1.6;
+}
+
+/* =========================
+   NAVBAR
+========================= */
+
+.navbar {
+  width: 100%;
+  min-height: 75px;
+  padding: 0 7%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #ffffff;
+  border-bottom: 1px solid #e7e7e0;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+.logo {
+  text-decoration: none;
+  color: #183d2c;
+  font-size: 25px;
+  font-weight: 800;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.logo-icon {
+  font-size: 29px;
+}
+
+.nav-links {
+  display: flex;
+  gap: 28px;
+}
+
+.nav-links a {
+  text-decoration: none;
+  color: #445149;
+  font-size: 15px;
+  font-weight: 600;
+  transition: 0.3s;
+}
+
+.nav-links a:hover {
+  color: #d86b2b;
+}
+
+.login-btn {
+  border: none;
+  background: #183d2c;
+  color: white;
+  padding: 12px 21px;
+  border-radius: 10px;
+  font-family: inherit;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.login-btn:hover {
+  background: #d86b2b;
+  transform: translateY(-2px);
+}
+
+
+/* =========================
+   HERO
+========================= */
+
+.hero {
+  min-height: 620px;
+  padding: 80px 8%;
+  display: grid;
+  grid-template-columns: 1.2fr 0.8fr;
+  gap: 60px;
+  align-items: center;
+  background:
+    radial-gradient(circle at top right, #e5efe8, transparent 40%),
+    #f7f7f3;
+}
+
+.badge {
+  display: inline-block;
+  background: #e7f1e8;
+  color: #28613d;
+  padding: 9px 16px;
+  border-radius: 30px;
+  font-size: 14px;
+  font-weight: 700;
+  margin-bottom: 22px;
+}
+
+.hero h1 {
+  font-size: clamp(42px, 5vw, 70px);
+  line-height: 1.15;
+  color: #183d2c;
+  margin-bottom: 24px;
+  max-width: 700px;
+}
+
+.hero h1 span {
+  color: #d86b2b;
+}
+
+.hero p {
+  font-size: 18px;
+  color: #5b665f;
+  max-width: 620px;
+  margin-bottom: 32px;
+}
+
+.hero-buttons {
+  display: flex;
+  gap: 15px;
+  flex-wrap: wrap;
+}
+
+.primary-btn,
+.secondary-btn {
+  text-decoration: none;
+  padding: 14px 22px;
+  border-radius: 10px;
+  font-weight: 700;
+  transition: 0.3s;
+}
+
+.primary-btn {
+  background: #183d2c;
+  color: white;
+}
+
+.primary-btn:hover {
+  background: #d86b2b;
+  transform: translateY(-3px);
+}
+
+.secondary-btn {
+  border: 2px solid #183d2c;
+  color: #183d2c;
+}
+
+.secondary-btn:hover {
+  background: #183d2c;
+  color: white;
+}
+
+
+/* HERO CARD */
+
+.hero-card {
+  background: white;
+  min-height: 390px;
+  border-radius: 30px;
+  padding: 40px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  box-shadow: 0 20px 50px rgba(24, 61, 44, 0.12);
+  border: 1px solid #ecece7;
+}
+
+.book-icon {
+  font-size: 95px;
+  margin-bottom: 20px;
+}
+
+.hero-card h3 {
+  font-size: 28px;
+  color: #183d2c;
+}
+
+.hero-card p {
+  font-size: 14px;
+  margin: 5px 0 0;
+}
+
+.floating-card {
+  position: absolute;
+  background: white;
+  padding: 10px 15px;
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: 700;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+}
+
+.card-one {
+  top: 30px;
+  left: -20px;
+  color: #23643e;
+}
+
+.card-two {
+  top: 120px;
+  right: -25px;
+  color: #d86b2b;
+}
+
+.card-three {
+  bottom: 40px;
+  left: -25px;
+  color: #51378c;
+}
+
+
+/* =========================
+   GENERAL SECTION
+========================= */
+
+.section {
+  padding: 90px 8%;
+}
+
+.section-heading {
+  text-align: center;
+  max-width: 720px;
+  margin: 0 auto 55px;
+}
+
+.small-title {
+  display: inline-block;
+  color: #d86b2b;
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: 1.5px;
+  margin-bottom: 10px;
+}
+
+.section-heading h2,
+.why-content h2 {
+  font-size: clamp(32px, 4vw, 48px);
+  color: #183d2c;
+  margin-bottom: 14px;
+}
+
+.section-heading p {
+  color: #657068;
+}
+
+
+/* =========================
+   CLASS CARDS
+========================= */
+
+.classes-section {
+  background: white;
+}
+
+.class-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 25px;
+  max-width: 1150px;
+  margin: auto;
+}
+
+.class-card {
+  background: #f7f7f3;
+  border: 1px solid #e7e7e0;
+  padding: 38px 30px;
+  border-radius: 20px;
+  text-align: center;
+  position: relative;
+  transition: 0.3s;
+}
+
+.class-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 15px 35px rgba(24, 61, 44, 0.1);
+}
+
+.class-number {
+  width: 82px;
+  height: 82px;
+  margin: 0 auto 20px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #183d2c;
+  color: white;
+  font-size: 32px;
+  font-weight: 800;
+}
+
+.class-card h3 {
+  font-size: 24px;
+  margin-bottom: 10px;
+  color: #183d2c;
+}
+
+.class-card p {
+  font-size: 14px;
+  color: #69736c;
+  min-height: 50px;
+}
+
+.card-btn {
+  margin-top: 20px;
+  border: none;
+  background: #d86b2b;
+  color: white;
+  padding: 11px 22px;
+  border-radius: 9px;
+  font-family: inherit;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.featured {
+  border: 2px solid #d86b2b;
+}
+
+.popular-tag {
+  position: absolute;
+  top: -14px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #d86b2b;
+  color: white;
+  padding: 5px 15px;
+  border-radius: 20px;
+  font-size: 11px;
+  font-weight: 800;
+}
+
+
+/* =========================
+   PREMIUM COURSES
+========================= */
+
+.courses-section {
+  background: #eef3ed;
+}
+
+.course-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 25px;
+  max-width: 1200px;
+  margin: auto;
+}
+
+.course-card {
+  background: white;
+  border-radius: 20px;
+  overflow: hidden;
+  transition: 0.3s;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
+}
+
+.course-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 18px 35px rgba(24, 61, 44, 0.12);
+}
+
+.course-image {
+  height: 160px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 65px;
+}
+
+.hindi-bg {
+  background: linear-gradient(135deg, #f4e5dc, #fff4ed);
+}
+
+.science-bg {
+  background: linear-gradient(135deg, #dcecf4, #edf8ff);
+}
+
+.full-bg {
+  background: linear-gradient(135deg, #e8e1f3, #f8f3ff);
+}
+
+.course-content {
+  padding: 25px;
+}
+
+.course-category {
+  font-size: 11px;
+  color: #d86b2b;
+  font-weight: 800;
+  letter-spacing: 1px;
+}
+
+.course-content h3 {
+  font-size: 22px;
+  color: #183d2c;
+  margin: 8px 0;
+}
+
+.course-content p {
+  font-size: 14px;
+  color: #69736c;
+  min-height: 65px;
+}
+
+.course-footer {
+  border-top: 1px solid #ecece7;
+  margin-top: 18px;
+  padding-top: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.price {
+  font-size: 24px;
+  font-weight: 800;
+  color: #183d2c;
+}
+
+.buy-btn {
+  border: none;
+  background: #183d2c;
+  color: white;
+  padding: 10px 15px;
+  border-radius: 8px;
+  font-family: inherit;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.coming-soon {
+  color: #d86b2b;
+  font-weight: 700;
+}
+
+
+/* =========================
+   FREE RESOURCES
+========================= */
+
+.free-section {
+  background: white;
+}
+
+.free-grid {
+  max-width: 1000px;
+  margin: auto;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 30px;
+}
+
+.free-card {
+  padding: 40px;
+  border-radius: 22px;
+  transition: 0.3s;
+}
+
+.free-card:hover {
+  transform: translateY(-6px);
+}
+
+.questions-card {
+  background: #eaf3ea;
+}
+
+.pyq-card {
+  background: #f4e8de;
+}
+
+.free-icon {
+  font-size: 50px;
+  margin-bottom: 18px;
+}
+
+.free-card h3 {
+  color: #183d2c;
+  font-size: 25px;
+  margin-bottom: 10px;
+}
+
+.free-card p {
+  color: #59655e;
+  margin-bottom: 22px;
+}
+
+.free-card button {
+  border: none;
+  background: #183d2c;
+  color: white;
+  padding: 12px 20px;
+  border-radius: 9px;
+  font-family: inherit;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+
+/* =========================
+   WHY SECTION
+========================= */
+
+.why-section {
+  padding: 90px 8%;
+  background: #183d2c;
+  color: white;
+}
+
+.why-content {
+  max-width: 1150px;
+  margin: auto;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 70px;
+  align-items: center;
+}
+
+.why-content .small-title {
+  color: #f3a56c;
+}
+
+.why-content h2 {
+  color: white;
+}
+
+.why-content p {
+  color: #c6d4cc;
+  max-width: 500px;
+}
+
+.features {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 18px;
+}
+
+.feature {
+  background: rgba(255, 255, 255, 0.08);
+  padding: 18px;
+  border-radius: 12px;
+  font-weight: 600;
+}
+
+.feature span {
+  margin-right: 8px;
+}
+
+
+/* =========================
+   FOOTER
+========================= */
+
+footer {
+  background: #10291d;
+  color: white;
+  text-align: center;
+  padding: 50px 20px 25px;
+}
+
+.footer-logo {
+  font-size: 26px;
+  font-weight: 800;
+  margin-bottom: 8px;
+}
+
+footer p {
+  color: #bdcbc2;
+}
+
+.footer-links {
+  display: flex;
+  justify-content: center;
+  gap: 25px;
+  margin: 25px 0;
+  flex-wrap: wrap;
+}
+
+.footer-links a {
+  color: white;
+  text-decoration: none;
+  font-size: 14px;
+}
+
+.copyright {
+  font-size: 12px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  padding-top: 20px;
+}
+
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media (max-width: 900px) {
+
+  .hero {
+    grid-template-columns: 1fr;
+    text-align: center;
+    padding-top: 60px;
+  }
+
+  .hero-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .class-grid,
+  .course-grid {
+    grid-template-columns: 1fr;
+    max-width: 500px;
+  }
+
+  .why-content {
+    grid-template-columns: 1fr;
+    text-align: center;
+  }
+
+  .nav-links {
+    display: none;
+  }
+
+}
+
+
+@media (max-width: 600px) {
+
+  .navbar {
+    padding: 0 5%;
+  }
+
+  .login-btn {
+    padding: 9px 13px;
+    font-size: 12px;
+  }
+
+  .logo {
+    font-size: 20px;
+  }
+
+  .section {
+    padding: 65px 5%;
+  }
+
+  .hero {
+    padding: 60px 5%;
+  }
+
+  .free-grid,
+  .features {
+    grid-template-columns: 1fr;
+  }
+
+  .hero-card {
+    min-height: 320px;
+  }
+
+  .floating-card {
+    font-size: 12px;
+  }
+
+  .why-section {
+    padding: 70px 5%;
+  }
+
+}
