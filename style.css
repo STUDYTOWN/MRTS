@@ -1,0 +1,262 @@
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:"Poppins","Hind",sans-serif;background:#f7f7f3;color:#1d2a24;line-height:1.6}
+.navbar{width:100%;min-height:75px;padding:0 7%;display:flex;align-items:center;justify-content:space-between;background:#fff;border-bottom:1px solid #e7e7e0;position:sticky;top:0;z-index:1000}
+.logo{text-decoration:none;color:#183d2c;font-size:25px;font-weight:800;display:flex;align-items:center;gap:8px}
+.logo-icon{font-size:29px}
+.nav-links{display:flex;gap:28px}
+.nav-links a{text-decoration:none;color:#445149;font-size:15px;font-weight:600;transition:.3s}
+.nav-links a:hover{color:#d86b2b}
+.login-btn{border:none;background:#183d2c;color:#fff;padding:12px 21px;border-radius:10px;font-family:inherit;font-weight:600;cursor:pointer}
+.hero{min-height:620px;padding:80px 8%;display:grid;grid-template-columns:1.2fr .8fr;gap:60px;align-items:center;background:radial-gradient(circle at top right,#e5efe8,transparent 40%),#f7f7f3}
+.badge{display:inline-block;background:#e7f1e8;color:#28613d;padding:9px 16px;border-radius:30px;font-size:14px;font-weight:700;margin-bottom:22px}
+.hero h1{font-size:clamp(42px,5vw,70px);line-height:1.15;color:#183d2c;margin-bottom:24px;max-width:700px}
+.hero h1 span,.class-page-hero h1 span{color:#d86b2b}
+.hero p{font-size:18px;color:#5b665f;max-width:620px;margin-bottom:32px}
+.hero-buttons{display:flex;gap:15px;flex-wrap:wrap}
+.primary-btn,.secondary-btn{display:inline-block;text-decoration:none;padding:14px 22px;border-radius:10px;font-weight:700;transition:.3s}
+.primary-btn{background:#183d2c;color:#fff}.primary-btn:hover{background:#d86b2b;transform:translateY(-3px)}
+.secondary-btn{border:2px solid #183d2c;color:#183d2c}.secondary-btn:hover{background:#183d2c;color:#fff}
+.hero-card{background:#fff;min-height:390px;border-radius:30px;padding:40px;display:flex;flex-direction:column;justify-content:center;align-items:center;position:relative;box-shadow:0 20px 50px rgba(24,61,44,.12);border:1px solid #ecece7}
+.book-icon{font-size:95px;margin-bottom:20px}.hero-card h3{font-size:28px;color:#183d2c}.hero-card p{font-size:14px;margin:5px 0 0}
+.floating-card{position:absolute;background:#fff;padding:10px 15px;border-radius:10px;font-size:14px;font-weight:700;box-shadow:0 8px 20px rgba(0,0,0,.08)}
+.card-one{top:30px;left:-20px;color:#23643e}.card-two{top:120px;right:-25px;color:#d86b2b}.card-three{bottom:40px;left:-25px;color:#51378c}
+.section{padding:90px 8%}.section-heading{text-align:center;max-width:720px;margin:0 auto 55px}
+.small-title{display:inline-block;color:#d86b2b;font-size:13px;font-weight:800;letter-spacing:1.5px;margin-bottom:10px}
+.section-heading h2,.why-content h2{font-size:clamp(32px,4vw,48px);color:#183d2c;margin-bottom:14px}.section-heading p{color:#657068}
+.classes-section,.subjects-section,.free-section{background:#fff}
+.class-grid,.course-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:25px;max-width:1150px;margin:auto}
+.class-card{background:#f7f7f3;border:1px solid #e7e7e0;padding:38px 30px;border-radius:20px;text-align:center;position:relative;transition:.3s}
+.class-card:hover,.course-card:hover,.subject-card:hover{transform:translateY(-8px);box-shadow:0 15px 35px rgba(24,61,44,.1)}
+.class-number{width:82px;height:82px;margin:0 auto 20px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:#183d2c;color:#fff;font-size:32px;font-weight:800}
+.class-card h3{font-size:24px;margin-bottom:10px;color:#183d2c}.class-card p{font-size:14px;color:#69736c;min-height:50px}
+.card-btn{display:inline-block;margin-top:20px;background:#d86b2b;color:#fff;padding:11px 22px;border-radius:9px;font-family:inherit;font-weight:700;text-decoration:none;border:none;cursor:pointer}
+.disabled-card{opacity:.85}.featured{border:2px solid #d86b2b}.popular-tag{position:absolute;top:-14px;left:50%;transform:translateX(-50%);background:#d86b2b;color:#fff;padding:5px 15px;border-radius:20px;font-size:11px;font-weight:800}
+.courses-section,.class-premium{background:#eef3ed}.course-card{background:#fff;border-radius:20px;overflow:hidden;transition:.3s;box-shadow:0 8px 20px rgba(0,0,0,.05)}
+.course-image{height:160px;display:flex;align-items:center;justify-content:center;font-size:65px}.hindi-bg{background:linear-gradient(135deg,#f4e5dc,#fff4ed)}.science-bg{background:linear-gradient(135deg,#dcecf4,#edf8ff)}.full-bg{background:linear-gradient(135deg,#e8e1f3,#f8f3ff)}
+.course-content{padding:25px}.course-category{font-size:11px;color:#d86b2b;font-weight:800;letter-spacing:1px}.course-content h3{font-size:22px;color:#183d2c;margin:8px 0}.course-content p{font-size:14px;color:#69736c;min-height:65px}
+.course-footer{border-top:1px solid #ecece7;margin-top:18px;padding-top:18px;display:flex;align-items:center;justify-content:space-between;gap:15px}.price{font-size:24px;font-weight:800;color:#183d2c}
+.buy-btn{display:inline-block;text-decoration:none;border:none;background:#183d2c;color:#fff;padding:10px 15px;border-radius:8px;font-family:inherit;font-weight:600;cursor:pointer}.coming-soon{color:#d86b2b;font-weight:700}
+.free-grid{max-width:1000px;margin:auto;display:grid;grid-template-columns:repeat(2,1fr);gap:30px}.free-card{padding:40px;border-radius:22px;transition:.3s}.free-card:hover{transform:translateY(-6px)}.questions-card{background:#eaf3ea}.pyq-card{background:#f4e8de}.free-icon{font-size:50px;margin-bottom:18px}.free-card h3{color:#183d2c;font-size:25px;margin-bottom:10px}.free-card p{color:#59655e;margin-bottom:22px}.free-card button{border:none;background:#183d2c;color:#fff;padding:12px 20px;border-radius:9px;font-family:inherit;font-weight:700;cursor:pointer}
+.why-section{padding:90px 8%;background:#183d2c;color:#fff}.why-content{max-width:1150px;margin:auto;display:grid;grid-template-columns:1fr 1fr;gap:70px;align-items:center}.why-content .small-title{color:#f3a56c}.why-content h2{color:#fff}.why-content p{color:#c6d4cc;max-width:500px}.features{display:grid;grid-template-columns:repeat(2,1fr);gap:18px}.feature{background:rgba(255,255,255,.08);padding:18px;border-radius:12px;font-weight:600}.feature span{margin-right:8px}
+footer{background:#10291d;color:#fff;text-align:center;padding:50px 20px 25px}.footer-logo{font-size:26px;font-weight:800;margin-bottom:8px}footer p{color:#bdcbc2}.footer-links{display:flex;justify-content:center;gap:25px;margin:25px 0;flex-wrap:wrap}.footer-links a{color:#fff;text-decoration:none;font-size:14px}.copyright{font-size:12px;border-top:1px solid rgba(255,255,255,.1);padding-top:20px}
+.class-page-hero{padding:100px 8%;text-align:center;background:radial-gradient(circle at top,#e3efe5,transparent 45%),#f7f7f3}.class-page-hero>div{max-width:750px;margin:auto}.class-page-hero h1{font-size:clamp(50px,7vw,85px);color:#183d2c;margin-bottom:15px}.class-page-hero p{color:#657068;font-size:18px;margin-bottom:30px}
+.subject-grid{max-width:1150px;margin:auto;display:grid;grid-template-columns:repeat(3,1fr);gap:25px}.subject-card{display:block;text-decoration:none;color:#183d2c;padding:30px;border-radius:20px;border:1px solid #e7e7e0;min-height:220px;transition:.3s}.subject-icon{font-size:45px;margin-bottom:15px}.subject-card h3{font-size:24px;color:#183d2c;margin-bottom:10px}.subject-card p{font-size:15px;color:#69736c;margin-bottom:15px}.subject-card span{display:inline-block;margin-top:10px;color:#d86b2b;font-weight:700}
+.subject-card.hindi{background:#fff7f1}.subject-card.english{background:#f1f6ff}.subject-card.physics{background:#f2fbf8}.subject-card.chemistry{background:#fff4f4}.subject-card.maths{background:#f7f2ff}.subject-card.biology{background:#f2faef}
+.single-course-grid{grid-template-columns:minmax(280px,500px);justify-content:center}.course-list{list-style:none;margin-top:15px;color:#59655e;font-size:14px}.course-list li{margin:8px 0}
+@media(max-width:900px){.hero{grid-template-columns:1fr;text-align:center;padding-top:60px}.hero-content{display:flex;flex-direction:column;align-items:center}.class-grid,.course-grid{grid-template-columns:1fr;max-width:500px}.subject-grid{grid-template-columns:repeat(2,1fr)}.why-content{grid-template-columns:1fr;text-align:center}.nav-links{display:none}}
+@media(max-width:600px){.navbar{padding:0 5%}.login-btn{padding:9px 13px;font-size:12px}.logo{font-size:20px}.section{padding:65px 5%}.hero{padding:60px 5%}.free-grid,.features,.subject-grid{grid-template-columns:1fr}.hero-card{min-height:320px}.floating-card{font-size:12px}.why-section{padding:70px 5%}}
+
+
+/* =========================
+   MOBILE HAMBURGER MENU
+========================= */
+
+.menu-toggle{
+  display:none;
+  border:none;
+  background:#183d2c;
+  color:#ffffff;
+  width:44px;
+  height:44px;
+  border-radius:10px;
+  font-size:26px;
+  line-height:1;
+  cursor:pointer;
+  align-items:center;
+  justify-content:center;
+  font-family:Arial,sans-serif;
+}
+
+@media(max-width:900px){
+
+  .navbar{
+    position:sticky;
+    min-height:70px;
+    padding:0 5%;
+    flex-wrap:nowrap;
+  }
+
+  .menu-toggle{
+    display:flex;
+    order:3;
+  }
+
+  .login-btn{
+    display:none;
+  }
+
+  .nav-links{
+    display:none;
+    position:absolute;
+    top:70px;
+    left:0;
+    width:100%;
+    background:#ffffff;
+    padding:12px 5% 22px;
+    border-top:1px solid #e7e7e0;
+    border-bottom:1px solid #e7e7e0;
+    box-shadow:0 12px 30px rgba(0,0,0,.10);
+    flex-direction:column;
+    gap:0;
+    z-index:9999;
+  }
+
+  .nav-links.mobile-active{
+    display:flex;
+  }
+
+  .nav-links a{
+    display:block;
+    width:100%;
+    padding:14px 10px;
+    border-bottom:1px solid #f0f0ec;
+    font-size:16px;
+  }
+
+  .nav-links a:last-child{
+    border-bottom:none;
+  }
+
+  .mobile-my-courses{
+    display:block !important;
+    margin-top:12px;
+    text-align:center;
+    background:#183d2c;
+    color:#ffffff !important;
+    border-radius:10px;
+    padding:13px !important;
+  }
+
+  .menu-toggle.active{
+    background:#d86b2b;
+  }
+}
+
+
+/* =========================
+   COMPACT HORIZONTAL CLASS CARDS
+========================= */
+
+.compact-class-list{
+  display:flex;
+  flex-direction:column;
+  gap:16px;
+  max-width:980px;
+  margin:0 auto;
+}
+
+.class-card-row,
+.class-card{
+  min-height:0 !important;
+}
+
+/* Home page class cards become compact horizontal rows */
+.compact-class-list .class-card,
+.compact-class-list .class-card-row{
+  width:100%;
+  display:grid !important;
+  grid-template-columns:88px minmax(150px, 1fr) minmax(240px, 2.2fr) 140px;
+  align-items:center;
+  gap:22px;
+  padding:18px 24px !important;
+  border-radius:16px;
+  text-align:left !important;
+  box-shadow:0 8px 24px rgba(0,0,0,.08);
+}
+
+.compact-class-list .class-number,
+.compact-class-list .class-icon,
+.compact-class-list .card-icon{
+  width:72px;
+  height:72px;
+  min-width:72px;
+  border-radius:14px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:28px;
+  font-weight:800;
+}
+
+.compact-class-list .class-card h3,
+.compact-class-list .class-card-row h3{
+  margin:0 !important;
+  font-size:24px !important;
+  line-height:1.2;
+  white-space:nowrap;
+}
+
+.compact-class-list .class-card p,
+.compact-class-list .class-card-row p{
+  margin:0 !important;
+  font-size:14px !important;
+  line-height:1.6;
+  max-width:420px;
+}
+
+.compact-class-list .card-btn,
+.compact-class-list .explore-btn,
+.compact-class-list a.card-btn{
+  width:140px !important;
+  min-width:140px;
+  text-align:center;
+  justify-self:end;
+  margin:0 !important;
+  padding:12px 16px !important;
+  border-radius:10px;
+}
+
+/* Prevent any large image area inside the compact rows */
+.compact-class-list .card-image,
+.compact-class-list .class-image{
+  display:none !important;
+}
+
+@media(max-width:700px){
+  .compact-class-list{
+    gap:12px;
+  }
+
+  .compact-class-list .class-card,
+  .compact-class-list .class-card-row{
+    display:grid !important;
+    grid-template-columns:58px 1fr;
+    gap:10px 14px;
+    padding:15px !important;
+    border-radius:14px;
+  }
+
+  .compact-class-list .class-number,
+  .compact-class-list .class-icon,
+  .compact-class-list .card-icon{
+    width:54px;
+    height:54px;
+    min-width:54px;
+    font-size:21px;
+    grid-row:span 2;
+  }
+
+  .compact-class-list .class-card h3,
+  .compact-class-list .class-card-row h3{
+    font-size:18px !important;
+    align-self:end;
+  }
+
+  .compact-class-list .class-card p,
+  .compact-class-list .class-card-row p{
+    grid-column:2;
+    font-size:12px !important;
+    line-height:1.45;
+  }
+
+  .compact-class-list .card-btn,
+  .compact-class-list .explore-btn,
+  .compact-class-list a.card-btn{
+    grid-column:1 / -1;
+    width:100% !important;
+    min-width:0;
+    justify-self:stretch;
+    margin-top:4px !important;
+  }
+}
