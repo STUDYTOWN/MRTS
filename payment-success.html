@@ -1,2 +1,274 @@
 <!DOCTYPE html>
-<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Payment Successful | StudyTown</title><link rel="stylesheet" href="style.css"></head><body><main class="section"><div class="section-heading"><span class="small-title">PAYMENT</span><h2>Payment Successful!</h2><p>Thank you for your purchase. Your order has been created successfully.</p><p id="orderId"></p><a class="primary-btn" href="index.html">Continue to StudyTown →</a></div></main><script>const id=new URLSearchParams(location.search).get('order_id');document.getElementById('orderId').textContent=id?`Order ID: ${id}`:'Order ID not available.';</script></body></html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <title>Payment Status | StudyTown</title>
+
+  <link rel="stylesheet" href="style.css">
+</head>
+
+
+<body>
+
+  <main class="section">
+
+    <div class="section-heading">
+
+      <span class="small-title">
+        PAYMENT
+      </span>
+
+
+      <h2 id="statusTitle">
+        Verifying Payment...
+      </h2>
+
+
+      <p id="statusMessage">
+        Please wait while we securely verify your payment.
+      </p>
+
+
+      <p id="orderId"></p>
+
+
+      <div id="courseInfo"></div>
+
+
+      <br>
+
+
+      <a
+        id="continueButton"
+        class="primary-btn"
+        href="index.html"
+        style="display:none;"
+      >
+        Continue to StudyTown →
+      </a>
+
+
+    </div>
+
+  </main>
+
+
+  <script>
+
+    // ==========================================
+    // StudyTown Payment Worker
+    // ==========================================
+
+    const PAYMENT_API =
+      "https://shy-field-cc38studytown-payment.tarunsaini201986.workers.dev";
+
+
+    // ==========================================
+    // Get Order ID
+    // ==========================================
+
+    const params =
+      new URLSearchParams(
+        window.location.search
+      );
+
+
+    const orderId =
+      params.get("order_id");
+
+
+    const statusTitle =
+      document.getElementById(
+        "statusTitle"
+      );
+
+
+    const statusMessage =
+      document.getElementById(
+        "statusMessage"
+      );
+
+
+    const orderIdElement =
+      document.getElementById(
+        "orderId"
+      );
+
+
+    const courseInfo =
+      document.getElementById(
+        "courseInfo"
+      );
+
+
+    const continueButton =
+      document.getElementById(
+        "continueButton"
+      );
+
+
+    // ==========================================
+    // Show Order ID
+    // ==========================================
+
+    if (orderId) {
+
+      orderIdElement.textContent =
+        "Order ID: " +
+        orderId;
+
+    }
+
+
+    // ==========================================
+    // Verify Payment
+    // ==========================================
+
+    async function verifyPayment() {
+
+      // No Order ID
+      if (!orderId) {
+
+        statusTitle.textContent =
+          "Payment Verification Failed";
+
+
+        statusMessage.textContent =
+          "Order ID was not found.";
+
+
+        return;
+
+      }
+
+
+      try {
+
+        const response =
+          await fetch(
+            PAYMENT_API +
+            "/verify-payment?order_id=" +
+            encodeURIComponent(orderId)
+          );
+
+
+        const data =
+          await response.json();
+
+
+        console.log(
+          "Payment Verification:",
+          data
+        );
+
+
+        // ======================================
+        // PAYMENT SUCCESS
+        // ======================================
+
+        if (
+          response.ok &&
+          data.success &&
+          data.paid
+        ) {
+
+          statusTitle.textContent =
+            "Payment Successful! 🎉";
+
+
+          statusMessage.textContent =
+            "Your payment has been verified successfully.";
+
+
+          if (data.product_name) {
+
+            courseInfo.innerHTML =
+              "<strong>Course:</strong> " +
+              data.product_name;
+
+          }
+
+
+          continueButton.style.display =
+            "inline-flex";
+
+
+          return;
+
+        }
+
+
+        // ======================================
+        // PAYMENT PENDING
+        // ======================================
+
+        if (
+          response.ok &&
+          data.success &&
+          !data.paid
+        ) {
+
+          statusTitle.textContent =
+            "Payment Pending";
+
+
+          statusMessage.textContent =
+            "Your payment has not been confirmed yet. Please wait a moment and refresh this page.";
+
+
+          return;
+
+        }
+
+
+        // ======================================
+        // PAYMENT ERROR
+        // ======================================
+
+        statusTitle.textContent =
+          "Payment Verification Failed";
+
+
+        statusMessage.textContent =
+          data.message ||
+          "We could not verify your payment.";
+
+
+      } catch (error) {
+
+        console.error(
+          "Verification Error:",
+          error
+        );
+
+
+        statusTitle.textContent =
+          "Connection Error";
+
+
+        statusMessage.textContent =
+          "Unable to verify your payment. Please refresh the page and try again.";
+
+      }
+
+    }
+
+
+    // ==========================================
+    // Start Verification
+    // ==========================================
+
+    verifyPayment();
+
+  </script>
+
+</body>
+
+</html>
