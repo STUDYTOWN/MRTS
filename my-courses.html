@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+
 <html lang="en">
 
 <head>
@@ -12,61 +13,133 @@
 
   <title>My Courses | StudyTown</title>
 
-  <link rel="stylesheet" href="style.css">
+  <link
+    rel="stylesheet"
+    href="style.css"
+  >
+
 
   <style>
 
+    /* ==========================================
+       MY COURSES CONTAINER
+    ========================================== */
+
     .my-courses-container {
+
       max-width: 1000px;
+
       margin: 0 auto;
+
       padding: 30px 20px;
+
     }
 
 
+    /* ==========================================
+       COURSES GRID
+    ========================================== */
+
     .courses-grid {
+
       display: grid;
+
       grid-template-columns:
         repeat(
           auto-fit,
           minmax(250px, 1fr)
         );
+
       gap: 20px;
+
       margin-top: 30px;
+
     }
 
 
+    /* ==========================================
+       COURSE CARD
+    ========================================== */
+
     .course-card {
+
       background: #ffffff;
-      border: 1px solid #e5e5e5;
+
+      border:
+        1px solid #e5e5e5;
+
       border-radius: 15px;
+
       padding: 25px;
+
       box-shadow:
         0 5px 20px
-        rgba(0, 0, 0, 0.06);
+        rgba(
+          0,
+          0,
+          0,
+          0.06
+        );
+
     }
 
 
     .course-card h3 {
+
       margin-top: 0;
+
       margin-bottom: 10px;
+
     }
 
+
+    /* ==========================================
+       COURSE STATUS
+    ========================================== */
 
     .course-status {
+
       font-size: 14px;
+
       margin-bottom: 20px;
+
       opacity: 0.7;
+
     }
 
 
+    /* ==========================================
+       EMPTY COURSES
+    ========================================== */
+
     .empty-courses {
+
       text-align: center;
+
       padding: 60px 20px;
+
     }
 
 
     .empty-courses h3 {
+
       margin-bottom: 15px;
+
+    }
+
+
+    /* ==========================================
+       BUTTON
+    ========================================== */
+
+    .start-course-btn {
+
+      width: 100%;
+
+      cursor: pointer;
+
+      border: none;
+
     }
 
   </style>
@@ -79,27 +152,45 @@
 
   <main class="section">
 
+
     <div class="my-courses-container">
 
 
+      <!-- ======================================
+           PAGE HEADER
+      ======================================= -->
+
       <div class="section-heading">
 
+
         <span class="small-title">
+
           STUDYTOWN
+
         </span>
 
 
         <h2>
+
           My Courses
+
         </h2>
 
 
         <p>
+
           Your purchased courses will appear here.
+
         </p>
+
 
       </div>
 
+
+
+      <!-- ======================================
+           COURSES CONTAINER
+      ======================================= -->
 
       <div
         id="coursesContainer"
@@ -107,19 +198,29 @@
       ></div>
 
 
+
+      <!-- ======================================
+           EMPTY COURSES MESSAGE
+      ======================================= -->
+
       <div
         id="emptyCourses"
         class="empty-courses"
         style="display:none;"
       >
 
+
         <h3>
+
           No Courses Yet 📚
+
         </h3>
 
 
         <p>
+
           You have not purchased any courses yet.
+
         </p>
 
 
@@ -130,14 +231,23 @@
           href="index.html"
           class="primary-btn"
         >
+
           Browse Courses →
+
         </a>
+
 
       </div>
 
 
+
       <br>
 
+
+
+      <!-- ======================================
+           BACK BUTTON
+      ======================================= -->
 
       <div
         style="
@@ -145,105 +255,48 @@
         "
       >
 
+
         <a
           href="index.html"
           class="primary-btn"
         >
+
           ← Back to StudyTown
+
         </a>
+
 
       </div>
 
 
     </div>
 
+
   </main>
+
 
 
   <script>
 
 
-   // ==========================================
-// COURSE PDF LINKS
-// ==========================================
+    // ==========================================
+    // COURSE ACCESS LINKS
+    // ==========================================
 
-const COURSE_LINKS = {
-
-  // ========================================
-  // CLASS 10
-  // ========================================
-
-  "class10-hindi":
-    "https://studytown.github.io/MRTS/pdf/class10-hindi.pdf",
-
-  "class10-english":
-    "https://studytown.github.io/MRTS/pdf/class10-english.pdf",
-
-  "class10-mathematics":
-    "https://studytown.github.io/MRTS/pdf/class10-mathematics.pdf",
-
-  "class10-science":
-    "https://studytown.github.io/MRTS/pdf/class10-science.pdf",
-
-  "class10-sst":
-    "https://studytown.github.io/MRTS/pdf/class10-sst.pdf",
+    const COURSE_LINKS = {
 
 
-  // ========================================
-  // CLASS 11
-  // ========================================
+      // ========================================
+      // CLASS 12 HINDI
+      // ========================================
 
-  "class11-accountancy":
-    "https://studytown.github.io/MRTS/pdf/class11-accountancy.pdf",
-
-  "class11-biology":
-    "https://studytown.github.io/MRTS/pdf/class11-biology.pdf",
-
-  "class11-business":
-    "https://studytown.github.io/MRTS/pdf/class11-business.pdf",
-
-  "class11-chemistry":
-    "https://studytown.github.io/MRTS/pdf/class11-chemistry.pdf",
-
-  "class11-economics":
-    "https://studytown.github.io/MRTS/pdf/class11-economics.pdf",
-
-  "class11-english":
-    "https://studytown.github.io/MRTS/pdf/class11-english.pdf",
-
-  "class11-hindi":
-    "https://studytown.github.io/MRTS/pdf/class11-hindi.pdf",
-
-  "class11-mathematics":
-    "https://studytown.github.io/MRTS/pdf/class11-mathematics.pdf",
-
-  "class11-physics":
-    "https://studytown.github.io/MRTS/pdf/class11-physics.pdf",
+      "class12-hindi":
+        "class12-hindi.html"
 
 
-  // ========================================
-  // CLASS 12
-  // ========================================
+    };
 
-  "class12-biology":
-    "https://studytown.github.io/MRTS/pdf/class12-biology.pdf",
 
-  "class12-chemistry":
-    "https://studytown.github.io/MRTS/pdf/class12-chemistry.pdf",
-
-  "class12-english":
-    "https://studytown.github.io/MRTS/pdf/class12-english.pdf",
-
-  "class12-hindi":
-    "https://studytown.github.io/MRTS/pdf/class12-hindi.pdf",
-
-  "class12-mathematics":
-    "https://studytown.github.io/MRTS/pdf/class12-mathematics.pdf",
-
-  "class12-physics":
-    "https://studytown.github.io/MRTS/pdf/class12-physics.pdf"
-
-};
 
     // ==========================================
     // LOAD PURCHASED COURSES
@@ -252,21 +305,31 @@ const COURSE_LINKS = {
     function loadCourses() {
 
 
+      // ----------------------------------------
+      // PAGE ELEMENTS
+      // ----------------------------------------
+
       const coursesContainer =
+
         document.getElementById(
           "coursesContainer"
         );
 
 
       const emptyCourses =
+
         document.getElementById(
           "emptyCourses"
         );
 
 
-      // Get purchases
+
+      // ----------------------------------------
+      // GET PURCHASED COURSES
+      // ----------------------------------------
 
       const purchases =
+
         JSON.parse(
 
           localStorage.getItem(
@@ -276,7 +339,10 @@ const COURSE_LINKS = {
         );
 
 
-      // No purchases
+
+      // ----------------------------------------
+      // NO PURCHASES
+      // ----------------------------------------
 
       if (
 
@@ -300,10 +366,23 @@ const COURSE_LINKS = {
       }
 
 
-      // Clear container
+
+      // ----------------------------------------
+      // CLEAR OLD CONTENT
+      // ----------------------------------------
 
       coursesContainer.innerHTML =
         "";
+
+
+
+      coursesContainer.style.display =
+        "grid";
+
+
+      emptyCourses.style.display =
+        "none";
+
 
 
       // ========================================
@@ -311,11 +390,15 @@ const COURSE_LINKS = {
       // ========================================
 
       purchases.forEach(
-
         purchase => {
 
 
+          // ------------------------------------
+          // CREATE COURSE CARD
+          // ------------------------------------
+
           const card =
+
             document.createElement(
               "div"
             );
@@ -325,93 +408,74 @@ const COURSE_LINKS = {
             "course-card";
 
 
+
+          // ------------------------------------
+          // COURSE NAME
+          // ------------------------------------
+
           const courseName =
+
             purchase.product_name ||
+
             "StudyTown Course";
 
 
+
+          // ------------------------------------
+          // PRODUCT ID
+          // ------------------------------------
+
           const productId =
+
             purchase.product_id;
 
 
-          const pdfLink =
-            COURSE_LINKS[productId];
 
-
-          // --------------------------------------
-          // Create Course Card
-          // --------------------------------------
+          // ------------------------------------
+          // CREATE CARD CONTENT
+          // ------------------------------------
 
           card.innerHTML = `
 
             <h3>
+
               ${courseName}
+
             </h3>
 
 
             <p class="course-status">
+
               Payment: PAID ✓
+
             </p>
 
 
             <button
-              class="primary-btn start-course-btn"
+
+              class="
+                primary-btn
+                start-course-btn
+              "
+
               data-product="${productId}"
+
             >
+
               Start Learning →
+
             </button>
 
           `;
 
 
+
+          // ------------------------------------
+          // ADD CARD TO PAGE
+          // ------------------------------------
+
           coursesContainer.appendChild(
             card
-          );
-
-
-          // --------------------------------------
-          // Start Learning
-          // --------------------------------------
-
-          const startButton =
-            card.querySelector(
-              ".start-course-btn"
-            );
-
-
-          startButton.addEventListener(
-
-            "click",
-
-            () => {
-
-
-              if (!pdfLink) {
-
-
-                alert(
-                  "Course material is not available yet."
-                );
-
-
-                return;
-
-              }
-
-
-              // Open PDF
-
-              window.open(
-
-                pdfLink,
-
-                "_blank"
-
-              );
-
-
-            }
-
           );
 
 
@@ -420,7 +484,102 @@ const COURSE_LINKS = {
       );
 
 
+
+      // ========================================
+      // START LEARNING BUTTON
+      // ========================================
+
+      document
+
+        .querySelectorAll(
+          ".start-course-btn"
+        )
+
+        .forEach(
+          button => {
+
+
+            button.addEventListener(
+
+              "click",
+
+              () => {
+
+
+                // ----------------------------
+                // GET PRODUCT ID
+                // ----------------------------
+
+                const productId =
+
+                  button.dataset.product;
+
+
+
+                // ----------------------------
+                // GET COURSE URL
+                // ----------------------------
+
+                const courseUrl =
+
+                  COURSE_LINKS[
+                    productId
+                  ];
+
+
+
+                // ----------------------------
+                // OPEN COURSE
+                // ----------------------------
+
+                if (courseUrl) {
+
+
+                  window.location.href =
+                    courseUrl;
+
+
+                }
+
+
+                // ----------------------------
+                // COURSE LINK NOT FOUND
+                // ----------------------------
+
+                else {
+
+
+                  alert(
+
+                    "Course access link is not available yet."
+
+                  );
+
+
+                  console.error(
+
+                    "Course link not found for:",
+
+                    productId
+
+                  );
+
+
+                }
+
+
+              }
+
+            );
+
+
+          }
+
+        );
+
+
     }
+
 
 
     // ==========================================
