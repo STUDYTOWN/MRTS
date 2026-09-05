@@ -2,7 +2,11 @@
 // StudyTown Frontend Script
 // ======================================================
 
+
+// ======================================================
 // Cloudflare Worker Payment API
+// ======================================================
+
 const PAYMENT_API =
   "https://shy-field-cc38studytown-payment.tarunsaini201986.workers.dev/create-order";
 
@@ -13,9 +17,10 @@ const PAYMENT_API =
 
 document.querySelectorAll('a[href^="#"]').forEach(link => {
   link.addEventListener('click', function (event) {
+
     const href = this.getAttribute('href');
 
-    // Ignore empty hash
+    // Ignore empty hash links
     if (!href || href === '#') {
       return;
     }
@@ -29,6 +34,7 @@ document.querySelectorAll('a[href^="#"]').forEach(link => {
         behavior: 'smooth'
       });
     }
+
   });
 });
 
@@ -38,11 +44,15 @@ document.querySelectorAll('a[href^="#"]').forEach(link => {
 // ======================================================
 
 document.querySelectorAll('.coming-link').forEach(item => {
+
   item.addEventListener('click', event => {
+
     event.preventDefault();
 
     alert('This section will be uploaded soon.');
+
   });
+
 });
 
 
@@ -54,10 +64,13 @@ document.querySelectorAll('.payment-placeholder').forEach(button => {
 
   button.addEventListener('click', async () => {
 
-    // Get product ID from HTML button
+    // Get Product ID from button
     const productId = button.dataset.product;
 
+
+    // Check Product ID
     if (!productId) {
+
       alert(
         'Product configuration is missing. Please contact StudyTown support.'
       );
@@ -72,13 +85,16 @@ document.querySelectorAll('.payment-placeholder').forEach(button => {
 
     try {
 
-      // Disable button to prevent double click
+      // Prevent double clicking
       button.disabled = true;
 
       button.textContent = 'Loading payment...';
 
 
-      // Create payment order through Cloudflare Worker
+      // ==================================================
+      // Create Cashfree Order Through Cloudflare Worker
+      // ==================================================
+
       const response = await fetch(PAYMENT_API, {
 
         method: 'POST',
@@ -94,20 +110,31 @@ document.querySelectorAll('.payment-placeholder').forEach(button => {
       });
 
 
-      // Read API response
+      // Read response
       const data = await response.json();
 
-      console.log('StudyTown Payment Response:', data);
+
+      // Debug log
+      console.log(
+        'StudyTown Payment Response:',
+        data
+      );
 
 
-      // Check payment order
+      // ==================================================
+      // Validate Payment Response
+      // ==================================================
+
       if (
         !response.ok ||
         !data.success ||
         !data.payment_session_id
       ) {
 
-        console.error('Payment API Error:', data);
+        console.error(
+          'Payment API Error:',
+          data
+        );
 
         throw new Error(
           data.message ||
@@ -117,7 +144,10 @@ document.querySelectorAll('.payment-placeholder').forEach(button => {
       }
 
 
-      // Check if Cashfree SDK is loaded
+      // ==================================================
+      // Check Cashfree SDK
+      // ==================================================
+
       if (typeof Cashfree === 'undefined') {
 
         throw new Error(
@@ -128,32 +158,46 @@ document.querySelectorAll('.payment-placeholder').forEach(button => {
 
 
       // ==================================================
-      // IMPORTANT
-      // Production / Live Payment Mode
+      // Cashfree Production / Live Mode
       // ==================================================
 
       const cashfree = Cashfree({
+
         mode: 'production'
+
       });
 
 
-      // Open Cashfree Checkout
+      // ==================================================
+      // Cashfree Checkout Options
+      // ==================================================
+
       const checkoutOptions = {
 
-        paymentSessionId: data.payment_session_id,
+        paymentSessionId:
+          data.payment_session_id,
 
-        redirectTarget: '_self'
+        redirectTarget:
+          '_self'
 
       };
 
 
-      // Start payment
-      cashfree.checkout(checkoutOptions);
+      // ==================================================
+      // Open Cashfree Payment Checkout
+      // ==================================================
+
+      await cashfree.checkout(
+        checkoutOptions
+      );
 
 
     } catch (error) {
 
-      console.error('Payment Error:', error);
+      console.error(
+        'Payment Error:',
+        error
+      );
 
 
       alert(
@@ -165,7 +209,8 @@ document.querySelectorAll('.payment-placeholder').forEach(button => {
       // Enable button again
       button.disabled = false;
 
-      button.textContent = originalText;
+      button.textContent =
+        originalText;
 
     }
 
@@ -175,7 +220,7 @@ document.querySelectorAll('.payment-placeholder').forEach(button => {
 
 
 // ======================================================
-// My Courses / Login
+// My Courses / Login Button
 // ======================================================
 
 document.querySelectorAll('.login-btn').forEach(button => {
@@ -197,27 +242,39 @@ document.querySelectorAll('.login-btn').forEach(button => {
 
 document.querySelectorAll('.menu-toggle').forEach(menuButton => {
 
-  const navbar = menuButton.closest('.navbar');
+  const navbar =
+    menuButton.closest('.navbar');
 
 
-  const navLinks = navbar
-    ? navbar.querySelector('.nav-links')
-    : null;
+  const navLinks =
+    navbar
+      ? navbar.querySelector('.nav-links')
+      : null;
 
 
+  // Stop if navbar links do not exist
   if (!navLinks) {
     return;
   }
 
 
-  // Add My Courses to mobile menu
-  if (!navLinks.querySelector('.mobile-my-courses')) {
+  // ====================================================
+  // Add My Courses Link to Mobile Menu
+  // ====================================================
+
+  if (
+    !navLinks.querySelector(
+      '.mobile-my-courses'
+    )
+  ) {
 
     const myCoursesLink =
       document.createElement('a');
 
 
-    myCoursesLink.href = '#';
+    myCoursesLink.href =
+      '#';
+
 
     myCoursesLink.className =
       'mobile-my-courses';
@@ -233,6 +290,7 @@ document.querySelectorAll('.menu-toggle').forEach(menuButton => {
 
         event.preventDefault();
 
+
         alert(
           'My Courses will be available after the course access system is added.'
         );
@@ -241,66 +299,82 @@ document.querySelectorAll('.menu-toggle').forEach(menuButton => {
     );
 
 
-    navLinks.appendChild(myCoursesLink);
+    navLinks.appendChild(
+      myCoursesLink
+    );
 
   }
 
 
+  // ====================================================
   // Open / Close Mobile Menu
-  menuButton.addEventListener('click', () => {
+  // ====================================================
 
-    const isOpen =
-      navLinks.classList.toggle(
-        'mobile-active'
-      );
+  menuButton.addEventListener(
+    'click',
+    () => {
 
-
-    menuButton.classList.toggle(
-      'active',
-      isOpen
-    );
+      const isOpen =
+        navLinks.classList.toggle(
+          'mobile-active'
+        );
 
 
-    menuButton.setAttribute(
-      'aria-expanded',
-      String(isOpen)
-    );
-
-
-    menuButton.textContent =
-      isOpen
-        ? '✕'
-        : '☰';
-
-  });
-
-
-  // Close mobile menu after clicking a link
-  navLinks.querySelectorAll('a').forEach(link => {
-
-    link.addEventListener('click', () => {
-
-      navLinks.classList.remove(
-        'mobile-active'
-      );
-
-
-      menuButton.classList.remove(
-        'active'
+      menuButton.classList.toggle(
+        'active',
+        isOpen
       );
 
 
       menuButton.setAttribute(
         'aria-expanded',
-        'false'
+        String(isOpen)
       );
 
 
       menuButton.textContent =
-        '☰';
+        isOpen
+          ? '✕'
+          : '☰';
+
+    }
+  );
+
+
+  // ====================================================
+  // Close Mobile Menu After Clicking a Link
+  // ====================================================
+
+  navLinks
+    .querySelectorAll('a')
+    .forEach(link => {
+
+      link.addEventListener(
+        'click',
+        () => {
+
+          navLinks.classList.remove(
+            'mobile-active'
+          );
+
+
+          menuButton.classList.remove(
+            'active'
+          );
+
+
+          menuButton.setAttribute(
+            'aria-expanded',
+            'false'
+          );
+
+
+          menuButton.textContent =
+            '☰';
+
+        }
+      );
 
     });
-
-  });
 
 });
