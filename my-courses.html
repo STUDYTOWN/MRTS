@@ -162,6 +162,82 @@
 
   <script>
 
+
+    // ==========================================
+    // COURSE PDF LINKS
+    // ==========================================
+
+    const COURSE_LINKS = {
+
+      "class10-hindi":
+        "pdf/class10-hindi.pdf",
+
+      "class10-english":
+        "pdf/class10-english.pdf",
+
+      "class10-mathematics":
+        "pdf/class10-mathematics.pdf",
+
+      "class10-science":
+        "pdf/class10-science.pdf",
+
+      "class10-sst":
+        "pdf/class10-sst.pdf",
+
+
+      "class11-accountancy":
+        "pdf/class11-accountancy.pdf",
+
+      "class11-biology":
+        "pdf/class11-biology.pdf",
+
+      "class11-business":
+        "pdf/class11-business.pdf",
+
+      "class11-chemistry":
+        "pdf/class11-chemistry.pdf",
+
+      "class11-economics":
+        "pdf/class11-economics.pdf",
+
+      "class11-english":
+        "pdf/class11-english.pdf",
+
+      "class11-hindi":
+        "pdf/class11-hindi.pdf",
+
+      "class11-mathematics":
+        "pdf/class11-mathematics.pdf",
+
+      "class11-physics":
+        "pdf/class11-physics.pdf",
+
+
+      "class12-biology":
+        "pdf/class12-biology.pdf",
+
+      "class12-chemistry":
+        "pdf/class12-chemistry.pdf",
+
+      "class12-english":
+        "pdf/class12-english.pdf",
+
+      "class12-hindi":
+        "pdf/class12-hindi.pdf",
+
+      "class12-mathematics":
+        "pdf/class12-mathematics.pdf",
+
+      "class12-physics":
+        "pdf/class12-physics.pdf"
+
+
+      // FULL COURSE
+      // इसे बाद में अलग तरीके से handle करेंगे
+
+    };
+
+
     // ==========================================
     // LOAD PURCHASED COURSES
     // ==========================================
@@ -196,9 +272,13 @@
       // No purchases
 
       if (
+
         !purchases ||
+
         purchases.length === 0
+
       ) {
+
 
         coursesContainer.style.display =
           "none";
@@ -219,9 +299,12 @@
         "";
 
 
-      // Show courses
+      // ========================================
+      // SHOW PURCHASED COURSES
+      // ========================================
 
       purchases.forEach(
+
         purchase => {
 
 
@@ -240,6 +323,18 @@
             "StudyTown Course";
 
 
+          const productId =
+            purchase.product_id;
+
+
+          const pdfLink =
+            COURSE_LINKS[productId];
+
+
+          // --------------------------------------
+          // Create Course Card
+          // --------------------------------------
+
           card.innerHTML = `
 
             <h3>
@@ -254,7 +349,7 @@
 
             <button
               class="primary-btn start-course-btn"
-              data-product="${purchase.product_id}"
+              data-product="${productId}"
             >
               Start Learning →
             </button>
@@ -266,39 +361,57 @@
             card
           );
 
-        }
-      );
+
+          // --------------------------------------
+          // Start Learning
+          // --------------------------------------
+
+          const startButton =
+            card.querySelector(
+              ".start-course-btn"
+            );
 
 
-      // ========================================
-      // START LEARNING BUTTON
-      // ========================================
+          startButton.addEventListener(
 
-      document
-        .querySelectorAll(
-          ".start-course-btn"
-        )
-        .forEach(
-          button => {
+            "click",
 
-            button.addEventListener(
-              "click",
-              () => {
+            () => {
 
-                const productId =
-                  button.dataset.product;
+
+              if (!pdfLink) {
 
 
                 alert(
-                  "Course access system will open this course: " +
-                  productId
+                  "Course material is not available yet."
                 );
 
-              }
-            );
 
-          }
-        );
+                return;
+
+              }
+
+
+              // Open PDF
+
+              window.open(
+
+                pdfLink,
+
+                "_blank"
+
+              );
+
+
+            }
+
+          );
+
+
+        }
+
+      );
+
 
     }
 
@@ -308,6 +421,7 @@
     // ==========================================
 
     loadCourses();
+
 
   </script>
 
