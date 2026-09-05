@@ -1,21 +1,24 @@
-// ================================
+// ======================================================
 // StudyTown Frontend Script
-// ================================
+// ======================================================
 
+// Cloudflare Worker Payment API
 const PAYMENT_API =
   "https://shy-field-cc38studytown-payment.tarunsaini201986.workers.dev/create-order";
 
 
-// ================================
+// ======================================================
 // Smooth Scroll
-// ================================
+// ======================================================
 
 document.querySelectorAll('a[href^="#"]').forEach(link => {
   link.addEventListener('click', function (event) {
-
     const href = this.getAttribute('href');
 
-    if (!href || href === '#') return;
+    // Ignore empty hash
+    if (!href || href === '#') {
+      return;
+    }
 
     const target = document.querySelector(href);
 
@@ -30,37 +33,31 @@ document.querySelectorAll('a[href^="#"]').forEach(link => {
 });
 
 
-// ================================
+// ======================================================
 // Coming Soon Links
-// ================================
+// ======================================================
 
 document.querySelectorAll('.coming-link').forEach(item => {
-
   item.addEventListener('click', event => {
-
     event.preventDefault();
 
     alert('This section will be uploaded soon.');
-
   });
-
 });
 
 
-// ================================
-// CASHFREE PAYMENT
-// ================================
+// ======================================================
+// Cashfree Payment Integration
+// ======================================================
 
 document.querySelectorAll('.payment-placeholder').forEach(button => {
 
   button.addEventListener('click', async () => {
 
+    // Get product ID from HTML button
     const productId = button.dataset.product;
 
-
-    // Check product
     if (!productId) {
-
       alert(
         'Product configuration is missing. Please contact StudyTown support.'
       );
@@ -69,18 +66,19 @@ document.querySelectorAll('.payment-placeholder').forEach(button => {
     }
 
 
+    // Save original button text
     const originalText = button.textContent;
 
 
     try {
 
-      // Disable button while loading
+      // Disable button to prevent double click
       button.disabled = true;
 
       button.textContent = 'Loading payment...';
 
 
-      // Create order from Cloudflare Worker
+      // Create payment order through Cloudflare Worker
       const response = await fetch(PAYMENT_API, {
 
         method: 'POST',
@@ -96,20 +94,20 @@ document.querySelectorAll('.payment-placeholder').forEach(button => {
       });
 
 
+      // Read API response
       const data = await response.json();
 
+      console.log('StudyTown Payment Response:', data);
 
-      // Check API response
+
+      // Check payment order
       if (
         !response.ok ||
         !data.success ||
         !data.payment_session_id
       ) {
 
-        console.error(
-          'Payment API error:',
-          data
-        );
+        console.error('Payment API Error:', data);
 
         throw new Error(
           data.message ||
@@ -119,44 +117,43 @@ document.querySelectorAll('.payment-placeholder').forEach(button => {
       }
 
 
-      // Check Cashfree SDK
+      // Check if Cashfree SDK is loaded
       if (typeof Cashfree === 'undefined') {
 
         throw new Error(
-          'Cashfree payment system is not loaded. Please refresh and try again.'
+          'Cashfree payment system is not loaded. Please refresh the page and try again.'
         );
 
       }
 
 
-      // =====================================
-      // CASHFREE PRODUCTION MODE
-      // =====================================
+      // ==================================================
+      // IMPORTANT
+      // Production / Live Payment Mode
+      // ==================================================
 
       const cashfree = Cashfree({
-
         mode: 'production'
-
       });
 
 
       // Open Cashfree Checkout
-      cashfree.checkout({
+      const checkoutOptions = {
 
-        paymentSessionId:
-          data.payment_session_id,
+        paymentSessionId: data.payment_session_id,
 
         redirectTarget: '_self'
 
-      });
+      };
+
+
+      // Start payment
+      cashfree.checkout(checkoutOptions);
 
 
     } catch (error) {
 
-      console.error(
-        'Payment error:',
-        error
-      );
+      console.error('Payment Error:', error);
 
 
       alert(
@@ -165,6 +162,7 @@ document.querySelectorAll('.payment-placeholder').forEach(button => {
       );
 
 
+      // Enable button again
       button.disabled = false;
 
       button.textContent = originalText;
@@ -176,9 +174,9 @@ document.querySelectorAll('.payment-placeholder').forEach(button => {
 });
 
 
-// ================================
-// My Courses
-// ================================
+// ======================================================
+// My Courses / Login
+// ======================================================
 
 document.querySelectorAll('.login-btn').forEach(button => {
 
@@ -193,32 +191,27 @@ document.querySelectorAll('.login-btn').forEach(button => {
 });
 
 
-// ================================
+// ======================================================
 // Mobile Hamburger Menu
-// ================================
+// ======================================================
 
 document.querySelectorAll('.menu-toggle').forEach(menuButton => {
 
-  const navbar =
-    menuButton.closest('.navbar');
+  const navbar = menuButton.closest('.navbar');
 
 
-  const navLinks =
-    navbar
-      ? navbar.querySelector('.nav-links')
-      : null;
+  const navLinks = navbar
+    ? navbar.querySelector('.nav-links')
+    : null;
 
 
-  if (!navLinks) return;
+  if (!navLinks) {
+    return;
+  }
 
 
-  // Add My Courses in mobile menu
-
-  if (
-    !navLinks.querySelector(
-      '.mobile-my-courses'
-    )
-  ) {
+  // Add My Courses to mobile menu
+  if (!navLinks.querySelector('.mobile-my-courses')) {
 
     const myCoursesLink =
       document.createElement('a');
@@ -240,7 +233,6 @@ document.querySelectorAll('.menu-toggle').forEach(menuButton => {
 
         event.preventDefault();
 
-
         alert(
           'My Courses will be available after the course access system is added.'
         );
@@ -249,78 +241,66 @@ document.querySelectorAll('.menu-toggle').forEach(menuButton => {
     );
 
 
-    navLinks.appendChild(
-      myCoursesLink
-    );
+    navLinks.appendChild(myCoursesLink);
 
   }
 
 
-  // Toggle mobile menu
+  // Open / Close Mobile Menu
+  menuButton.addEventListener('click', () => {
 
-  menuButton.addEventListener(
-    'click',
-    () => {
-
-      const isOpen =
-        navLinks.classList.toggle(
-          'mobile-active'
-        );
+    const isOpen =
+      navLinks.classList.toggle(
+        'mobile-active'
+      );
 
 
-      menuButton.classList.toggle(
-        'active',
-        isOpen
+    menuButton.classList.toggle(
+      'active',
+      isOpen
+    );
+
+
+    menuButton.setAttribute(
+      'aria-expanded',
+      String(isOpen)
+    );
+
+
+    menuButton.textContent =
+      isOpen
+        ? '✕'
+        : '☰';
+
+  });
+
+
+  // Close mobile menu after clicking a link
+  navLinks.querySelectorAll('a').forEach(link => {
+
+    link.addEventListener('click', () => {
+
+      navLinks.classList.remove(
+        'mobile-active'
+      );
+
+
+      menuButton.classList.remove(
+        'active'
       );
 
 
       menuButton.setAttribute(
         'aria-expanded',
-        String(isOpen)
+        'false'
       );
 
 
       menuButton.textContent =
-        isOpen
-          ? '✕'
-          : '☰';
-
-    }
-  );
-
-
-  // Close menu after clicking
-
-  navLinks
-    .querySelectorAll('a')
-    .forEach(link => {
-
-      link.addEventListener(
-        'click',
-        () => {
-
-          navLinks.classList.remove(
-            'mobile-active'
-          );
-
-
-          menuButton.classList.remove(
-            'active'
-          );
-
-
-          menuButton.setAttribute(
-            'aria-expanded',
-            'false'
-          );
-
-
-          menuButton.textContent =
-            '☰';
-
-        }
-      );
+        '☰';
 
     });
+
+  });
 
 });
