@@ -12,30 +12,49 @@ const PAYMENT_API =
 
 
 // ======================================================
+// Cashfree Environment
+// ======================================================
+
+// अभी Sandbox Testing चल रही है.
+// Live payment शुरू करने के समय इसे "production" करना होगा.
+
+const CASHFREE_MODE = "sandbox";
+
+
+// ======================================================
 // Smooth Scroll
 // ======================================================
 
 document.querySelectorAll('a[href^="#"]').forEach(link => {
+
   link.addEventListener('click', function (event) {
 
-    const href = this.getAttribute('href');
+    const href =
+      this.getAttribute('href');
+
 
     // Ignore empty hash links
     if (!href || href === '#') {
       return;
     }
 
-    const target = document.querySelector(href);
+
+    const target =
+      document.querySelector(href);
+
 
     if (target) {
+
       event.preventDefault();
 
       target.scrollIntoView({
         behavior: 'smooth'
       });
+
     }
 
   });
+
 });
 
 
@@ -49,7 +68,9 @@ document.querySelectorAll('.coming-link').forEach(item => {
 
     event.preventDefault();
 
-    alert('This section will be uploaded soon.');
+    alert(
+      'This section will be uploaded soon.'
+    );
 
   });
 
@@ -60,321 +81,466 @@ document.querySelectorAll('.coming-link').forEach(item => {
 // Cashfree Payment Integration
 // ======================================================
 
-document.querySelectorAll('.payment-placeholder').forEach(button => {
-
-  button.addEventListener('click', async () => {
-
-    // Get Product ID from button
-    const productId = button.dataset.product;
+document
+  .querySelectorAll('.payment-placeholder')
+  .forEach(button => {
 
 
-    // Check Product ID
-    if (!productId) {
-
-      alert(
-        'Product configuration is missing. Please contact StudyTown support.'
-      );
-
-      return;
-    }
+    button.addEventListener(
+      'click',
+      async () => {
 
 
-    // Save original button text
-    const originalText = button.textContent;
+        // ==================================================
+        // Get Product ID
+        // ==================================================
+
+        const productId =
+          button.dataset.product;
 
 
-    try {
+        // ==================================================
+        // Validate Product ID
+        // ==================================================
 
-      // Prevent double clicking
-      button.disabled = true;
+        if (!productId) {
 
-      button.textContent = 'Loading payment...';
+          alert(
+            'Product configuration is missing. Please contact StudyTown support.'
+          );
 
+          return;
 
-      // ==================================================
-      // Create Cashfree Order Through Cloudflare Worker
-      // ==================================================
-
-      const response = await fetch(PAYMENT_API, {
-
-        method: 'POST',
-
-        headers: {
-          'Content-Type': 'application/json'
-        },
-
-        body: JSON.stringify({
-          productId: productId
-        })
-
-      });
+        }
 
 
-      // Read response
-      const data = await response.json();
+        // ==================================================
+        // Save Original Button Text
+        // ==================================================
+
+        const originalText =
+          button.textContent;
 
 
-      // Debug log
-      console.log(
-        'StudyTown Payment Response:',
-        data
-      );
+        try {
 
 
-      // ==================================================
-      // Validate Payment Response
-      // ==================================================
+          // ==================================================
+          // Prevent Double Click
+          // ==================================================
 
-      if (
-        !response.ok ||
-        !data.success ||
-        !data.payment_session_id
-      ) {
+          button.disabled = true;
 
-        console.error(
-          'Payment API Error:',
-          data
-        );
+          button.textContent =
+            'Creating order...';
 
-        throw new Error(
-          data.message ||
-          'Unable to create payment order.'
-        );
+
+          // ==================================================
+          // Create Order Through Cloudflare Worker
+          // ==================================================
+
+          const response =
+            await fetch(
+              PAYMENT_API,
+              {
+
+                method: 'POST',
+
+                headers: {
+
+                  'Content-Type':
+                    'application/json'
+
+                },
+
+                body:
+                  JSON.stringify({
+
+                    productId:
+                      productId
+
+                  })
+
+              }
+            );
+
+
+          // ==================================================
+          // Read API Response Safely
+          // ==================================================
+
+          let data;
+
+
+          try {
+
+            data =
+              await response.json();
+
+          } catch (jsonError) {
+
+            throw new Error(
+              'Invalid response received from payment server.'
+            );
+
+          }
+
+
+          // ==================================================
+          // Debug
+          // ==================================================
+
+          console.log(
+            'StudyTown Payment Response:',
+            data
+          );
+
+
+          // ==================================================
+          // Validate API Response
+          // ==================================================
+
+          if (
+            !response.ok ||
+            !data.success
+          ) {
+
+            console.error(
+              'Payment API Error:',
+              data
+            );
+
+
+            throw new Error(
+
+              data.message ||
+
+              'Unable to create payment order.'
+
+            );
+
+          }
+
+
+          // ==================================================
+          // Validate Payment Session ID
+          // ==================================================
+
+          if (
+            !data.payment_session_id
+          ) {
+
+            throw new Error(
+              'Payment session was not created.'
+            );
+
+          }
+
+
+          // ==================================================
+          // Check Cashfree SDK
+          // ==================================================
+
+          if (
+            typeof Cashfree ===
+            'undefined'
+          ) {
+
+            throw new Error(
+              'Cashfree payment system is not loaded. Please refresh the page and try again.'
+            );
+
+          }
+
+
+          // ==================================================
+          // Update Button
+          // ==================================================
+
+          button.textContent =
+            'Opening payment...';
+
+
+          // ==================================================
+          // Initialize Cashfree
+          // ==================================================
+
+          const cashfree =
+            Cashfree({
+
+              mode:
+                CASHFREE_MODE
+
+            });
+
+
+          // ==================================================
+          // Checkout Options
+          // ==================================================
+
+          const checkoutOptions = {
+
+            paymentSessionId:
+              data.payment_session_id,
+
+
+            // Payment checkout current page में open होगा
+            redirectTarget:
+              '_self'
+
+          };
+
+
+          // ==================================================
+          // Open Cashfree Checkout
+          // ==================================================
+
+          const checkoutResult =
+            await cashfree.checkout(
+              checkoutOptions
+            );
+
+
+          // ==================================================
+          // Debug Checkout Result
+          // ==================================================
+
+          console.log(
+            'Cashfree Checkout Result:',
+            checkoutResult
+          );
+
+
+        } catch (error) {
+
+
+          // ==================================================
+          // Error
+          // ==================================================
+
+          console.error(
+            'StudyTown Payment Error:',
+            error
+          );
+
+
+          alert(
+
+            error.message ||
+
+            'Unable to start payment. Please try again.'
+
+          );
+
+
+          // ==================================================
+          // Restore Button
+          // ==================================================
+
+          button.disabled =
+            false;
+
+
+          button.textContent =
+            originalText;
+
+        }
+
 
       }
+    );
 
-
-      // ==================================================
-      // Check Cashfree SDK
-      // ==================================================
-
-      if (typeof Cashfree === 'undefined') {
-
-        throw new Error(
-          'Cashfree payment system is not loaded. Please refresh the page and try again.'
-        );
-
-      }
-
-
-      // ==================================================
-      // Cashfree Production / Live Mode
-      // ==================================================
-
-      const cashfree = Cashfree({
-
-        mode: 'production'
-
-      });
-
-
-      // ==================================================
-      // Cashfree Checkout Options
-      // ==================================================
-
-      const checkoutOptions = {
-
-        paymentSessionId:
-          data.payment_session_id,
-
-        redirectTarget:
-          '_self'
-
-      };
-
-
-      // ==================================================
-      // Open Cashfree Payment Checkout
-      // ==================================================
-
-      await cashfree.checkout(
-        checkoutOptions
-      );
-
-
-    } catch (error) {
-
-      console.error(
-        'Payment Error:',
-        error
-      );
-
-
-      alert(
-        error.message ||
-        'Unable to start payment. Please try again.'
-      );
-
-
-      // Enable button again
-      button.disabled = false;
-
-      button.textContent =
-        originalText;
-
-    }
 
   });
-
-});
 
 
 // ======================================================
 // My Courses / Login Button
 // ======================================================
 
-document.querySelectorAll('.login-btn').forEach(button => {
-
-  button.addEventListener('click', () => {
-
-    alert(
-      'My Courses will be available after the course access system is added.'
-    );
-
-  });
-
-});
+document
+  .querySelectorAll('.login-btn')
+  .forEach(button => {
 
 
-// ======================================================
-// Mobile Hamburger Menu
-// ======================================================
-
-document.querySelectorAll('.menu-toggle').forEach(menuButton => {
-
-  const navbar =
-    menuButton.closest('.navbar');
-
-
-  const navLinks =
-    navbar
-      ? navbar.querySelector('.nav-links')
-      : null;
-
-
-  // Stop if navbar links do not exist
-  if (!navLinks) {
-    return;
-  }
-
-
-  // ====================================================
-  // Add My Courses Link to Mobile Menu
-  // ====================================================
-
-  if (
-    !navLinks.querySelector(
-      '.mobile-my-courses'
-    )
-  ) {
-
-    const myCoursesLink =
-      document.createElement('a');
-
-
-    myCoursesLink.href =
-      '#';
-
-
-    myCoursesLink.className =
-      'mobile-my-courses';
-
-
-    myCoursesLink.textContent =
-      'My Courses';
-
-
-    myCoursesLink.addEventListener(
+    button.addEventListener(
       'click',
-      event => {
-
-        event.preventDefault();
+      () => {
 
 
         alert(
           'My Courses will be available after the course access system is added.'
         );
 
+
       }
     );
 
 
-    navLinks.appendChild(
-      myCoursesLink
-    );
-
-  }
+  });
 
 
-  // ====================================================
-  // Open / Close Mobile Menu
-  // ====================================================
+// ======================================================
+// Mobile Hamburger Menu
+// ======================================================
 
-  menuButton.addEventListener(
-    'click',
-    () => {
+document
+  .querySelectorAll('.menu-toggle')
+  .forEach(menuButton => {
 
-      const isOpen =
-        navLinks.classList.toggle(
-          'mobile-active'
+
+    const navbar =
+      menuButton.closest(
+        '.navbar'
+      );
+
+
+    const navLinks =
+      navbar
+        ? navbar.querySelector(
+            '.nav-links'
+          )
+        : null;
+
+
+    // Stop if navbar links do not exist
+    if (!navLinks) {
+
+      return;
+
+    }
+
+
+    // ====================================================
+    // Add My Courses Link to Mobile Menu
+    // ====================================================
+
+    if (
+      !navLinks.querySelector(
+        '.mobile-my-courses'
+      )
+    ) {
+
+
+      const myCoursesLink =
+        document.createElement(
+          'a'
         );
 
 
-      menuButton.classList.toggle(
-        'active',
-        isOpen
-      );
+      myCoursesLink.href =
+        '#';
 
 
-      menuButton.setAttribute(
-        'aria-expanded',
-        String(isOpen)
-      );
+      myCoursesLink.className =
+        'mobile-my-courses';
 
 
-      menuButton.textContent =
-        isOpen
-          ? '✕'
-          : '☰';
-
-    }
-  );
+      myCoursesLink.textContent =
+        'My Courses';
 
 
-  // ====================================================
-  // Close Mobile Menu After Clicking a Link
-  // ====================================================
-
-  navLinks
-    .querySelectorAll('a')
-    .forEach(link => {
-
-      link.addEventListener(
+      myCoursesLink.addEventListener(
         'click',
-        () => {
+        event => {
 
-          navLinks.classList.remove(
-            'mobile-active'
+
+          event.preventDefault();
+
+
+          alert(
+            'My Courses will be available after the course access system is added.'
           );
 
-
-          menuButton.classList.remove(
-            'active'
-          );
-
-
-          menuButton.setAttribute(
-            'aria-expanded',
-            'false'
-          );
-
-
-          menuButton.textContent =
-            '☰';
 
         }
       );
 
-    });
 
-});
+      navLinks.appendChild(
+        myCoursesLink
+      );
+
+
+    }
+
+
+    // ====================================================
+    // Open / Close Mobile Menu
+    // ====================================================
+
+    menuButton.addEventListener(
+      'click',
+      () => {
+
+
+        const isOpen =
+          navLinks.classList.toggle(
+            'mobile-active'
+          );
+
+
+        menuButton.classList.toggle(
+          'active',
+          isOpen
+        );
+
+
+        menuButton.setAttribute(
+          'aria-expanded',
+          String(isOpen)
+        );
+
+
+        menuButton.textContent =
+          isOpen
+            ? '✕'
+            : '☰';
+
+
+      }
+    );
+
+
+    // ====================================================
+    // Close Mobile Menu After Clicking a Link
+    // ====================================================
+
+    navLinks
+      .querySelectorAll('a')
+      .forEach(link => {
+
+
+        link.addEventListener(
+          'click',
+          () => {
+
+
+            navLinks.classList.remove(
+              'mobile-active'
+            );
+
+
+            menuButton.classList.remove(
+              'active'
+            );
+
+
+            menuButton.setAttribute(
+              'aria-expanded',
+              'false'
+            );
+
+
+            menuButton.textContent =
+              '☰';
+
+
+          }
+        );
+
+
+      });
+
+
+  });
