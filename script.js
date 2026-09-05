@@ -8,73 +8,78 @@
 // ======================================================
 
 const PAYMENT_API =
-  "https://shy-field-cc38studytown-payment.tarunsaini201986.workers.dev/create-order";
-
-
-// ======================================================
-// Cashfree Environment
-// ======================================================
-
-// अभी Sandbox Testing चल रही है.
-// Live payment शुरू करने के समय इसे "production" करना होगा.
-
-const CASHFREE_MODE = "sandbox";
+  "https://shy-field-cc38studytown-payment.tarunsaini201986.workers.dev";
 
 
 // ======================================================
 // Smooth Scroll
 // ======================================================
 
-document.querySelectorAll('a[href^="#"]').forEach(link => {
+document
+  .querySelectorAll('a[href^="#"]')
+  .forEach(link => {
 
-  link.addEventListener('click', function (event) {
+    link.addEventListener(
+      "click",
+      function (event) {
 
-    const href =
-      this.getAttribute('href');
-
-
-    // Ignore empty hash links
-    if (!href || href === '#') {
-      return;
-    }
+        const href =
+          this.getAttribute("href");
 
 
-    const target =
-      document.querySelector(href);
+        // Ignore empty hash links
+        if (
+          !href ||
+          href === "#"
+        ) {
+          return;
+        }
 
 
-    if (target) {
+        const target =
+          document.querySelector(href);
 
-      event.preventDefault();
 
-      target.scrollIntoView({
-        behavior: 'smooth'
-      });
+        if (target) {
 
-    }
+          event.preventDefault();
+
+
+          target.scrollIntoView({
+            behavior: "smooth"
+          });
+
+        }
+
+      }
+    );
 
   });
-
-});
 
 
 // ======================================================
 // Coming Soon Links
 // ======================================================
 
-document.querySelectorAll('.coming-link').forEach(item => {
+document
+  .querySelectorAll(".coming-link")
+  .forEach(item => {
 
-  item.addEventListener('click', event => {
+    item.addEventListener(
+      "click",
+      event => {
 
-    event.preventDefault();
+        event.preventDefault();
 
-    alert(
-      'This section will be uploaded soon.'
+
+        alert(
+          "This section will be uploaded soon."
+        );
+
+      }
     );
 
   });
-
-});
 
 
 // ======================================================
@@ -82,31 +87,28 @@ document.querySelectorAll('.coming-link').forEach(item => {
 // ======================================================
 
 document
-  .querySelectorAll('.payment-placeholder')
+  .querySelectorAll(".payment-placeholder")
   .forEach(button => {
 
 
     button.addEventListener(
-      'click',
+      "click",
       async () => {
 
 
-        // ==================================================
+        // ================================================
         // Get Product ID
-        // ==================================================
+        // ================================================
 
         const productId =
           button.dataset.product;
 
 
-        // ==================================================
-        // Validate Product ID
-        // ==================================================
-
+        // Check Product ID
         if (!productId) {
 
           alert(
-            'Product configuration is missing. Please contact StudyTown support.'
+            "Product configuration is missing. Please contact StudyTown support."
           );
 
           return;
@@ -114,9 +116,9 @@ document
         }
 
 
-        // ==================================================
+        // ================================================
         // Save Original Button Text
-        // ==================================================
+        // ================================================
 
         const originalText =
           button.textContent;
@@ -125,31 +127,42 @@ document
         try {
 
 
-          // ==================================================
+          // ==============================================
           // Prevent Double Click
-          // ==================================================
+          // ==============================================
 
-          button.disabled = true;
+          button.disabled =
+            true;
+
 
           button.textContent =
-            'Creating order...';
+            "Creating secure payment...";
 
 
-          // ==================================================
+          console.log(
+            "Creating order for product:",
+            productId
+          );
+
+
+          // ==============================================
           // Create Order Through Cloudflare Worker
-          // ==================================================
+          // ==============================================
 
           const response =
             await fetch(
-              PAYMENT_API,
+
+              PAYMENT_API +
+              "/create-order",
+
               {
 
-                method: 'POST',
+                method: "POST",
 
                 headers: {
 
-                  'Content-Type':
-                    'application/json'
+                  "Content-Type":
+                    "application/json"
 
                 },
 
@@ -162,12 +175,13 @@ document
                   })
 
               }
+
             );
 
 
-          // ==================================================
-          // Read API Response Safely
-          // ==================================================
+          // ==============================================
+          // Read Response Safely
+          // ==============================================
 
           let data;
 
@@ -179,121 +193,149 @@ document
 
           } catch (jsonError) {
 
+            console.error(
+              "Invalid JSON response:",
+              jsonError
+            );
+
+
             throw new Error(
-              'Invalid response received from payment server.'
+              "Payment server returned an invalid response."
             );
 
           }
 
 
-          // ==================================================
-          // Debug
-          // ==================================================
+          // ==============================================
+          // Debug Response
+          // ==============================================
 
           console.log(
-            'StudyTown Payment Response:',
+            "StudyTown Payment Response:",
             data
           );
 
 
-          // ==================================================
-          // Validate API Response
-          // ==================================================
+          // ==============================================
+          // Check HTTP Error
+          // ==============================================
 
-          if (
-            !response.ok ||
-            !data.success
-          ) {
-
-            console.error(
-              'Payment API Error:',
-              data
-            );
-
+          if (!response.ok) {
 
             throw new Error(
 
               data.message ||
 
-              'Unable to create payment order.'
+              data.error ||
+
+              "Unable to create payment order."
 
             );
 
           }
 
 
-          // ==================================================
-          // Validate Payment Session ID
-          // ==================================================
+          // ==============================================
+          // Check Success
+          // ==============================================
 
-          if (
-            !data.payment_session_id
-          ) {
+          if (!data.success) {
 
             throw new Error(
-              'Payment session was not created.'
+
+              data.message ||
+
+              "Payment order creation failed."
+
             );
 
           }
 
 
-          // ==================================================
+          // ==============================================
+          // Check Payment Session ID
+          // ==============================================
+
+          if (
+
+            !data.payment_session_id ||
+
+            typeof data.payment_session_id !==
+              "string" ||
+
+            data.payment_session_id.trim() === ""
+
+          ) {
+
+            console.error(
+              "Invalid payment_session_id:",
+              data
+            );
+
+
+            throw new Error(
+              "Payment session could not be created. Please try again."
+            );
+
+          }
+
+
+          console.log(
+            "Payment session created successfully."
+          );
+
+
+          // ==============================================
           // Check Cashfree SDK
-          // ==================================================
+          // ==============================================
 
           if (
-            typeof Cashfree ===
-            'undefined'
+            typeof Cashfree === "undefined"
           ) {
 
             throw new Error(
-              'Cashfree payment system is not loaded. Please refresh the page and try again.'
+              "Cashfree payment system is not loaded. Please refresh the page and try again."
             );
 
           }
 
 
-          // ==================================================
-          // Update Button
-          // ==================================================
-
-          button.textContent =
-            'Opening payment...';
-
-
-          // ==================================================
-          // Initialize Cashfree
-          // ==================================================
+          // ==============================================
+          // Live Cashfree Production Mode
+          // ==============================================
 
           const cashfree =
             Cashfree({
 
               mode:
-                CASHFREE_MODE
+                "production"
 
             });
 
 
-          // ==================================================
+          // ==============================================
           // Checkout Options
-          // ==================================================
+          // ==============================================
 
           const checkoutOptions = {
 
             paymentSessionId:
               data.payment_session_id,
 
-
-            // Payment checkout current page में open होगा
             redirectTarget:
-              '_self'
+              "_self"
 
           };
 
 
-          // ==================================================
+          console.log(
+            "Opening Cashfree Checkout..."
+          );
+
+
+          // ==============================================
           // Open Cashfree Checkout
-          // ==================================================
+          // ==============================================
 
           const checkoutResult =
             await cashfree.checkout(
@@ -301,41 +343,61 @@ document
             );
 
 
-          // ==================================================
-          // Debug Checkout Result
-          // ==================================================
-
           console.log(
-            'Cashfree Checkout Result:',
+            "Cashfree Checkout Result:",
             checkoutResult
           );
+
+
+          // ==============================================
+          // If Checkout Returns Error
+          // ==============================================
+
+          if (
+            checkoutResult &&
+            checkoutResult.error
+          ) {
+
+            throw new Error(
+
+              checkoutResult.error.message ||
+
+              "Unable to open payment checkout."
+
+            );
+
+          }
 
 
         } catch (error) {
 
 
-          // ==================================================
-          // Error
-          // ==================================================
+          // ==============================================
+          // Log Error
+          // ==============================================
 
           console.error(
-            'StudyTown Payment Error:',
+            "StudyTown Payment Error:",
             error
           );
 
+
+          // ==============================================
+          // Show Error
+          // ==============================================
 
           alert(
 
             error.message ||
 
-            'Unable to start payment. Please try again.'
+            "Unable to start payment. Please try again."
 
           );
 
 
-          // ==================================================
+          // ==============================================
           // Restore Button
-          // ==================================================
+          // ==============================================
 
           button.disabled =
             false;
@@ -359,19 +421,16 @@ document
 // ======================================================
 
 document
-  .querySelectorAll('.login-btn')
+  .querySelectorAll(".login-btn")
   .forEach(button => {
 
 
     button.addEventListener(
-      'click',
+      "click",
       () => {
 
-
-        alert(
-          'My Courses will be available after the course access system is added.'
-        );
-
+        window.location.href =
+          "my-courses.html";
 
       }
     );
@@ -385,155 +444,141 @@ document
 // ======================================================
 
 document
-  .querySelectorAll('.menu-toggle')
+  .querySelectorAll(".menu-toggle")
   .forEach(menuButton => {
 
 
     const navbar =
       menuButton.closest(
-        '.navbar'
+        ".navbar"
       );
 
 
     const navLinks =
       navbar
+
         ? navbar.querySelector(
-            '.nav-links'
+            ".nav-links"
           )
+
         : null;
 
 
-    // Stop if navbar links do not exist
+    // Stop if navigation links do not exist
     if (!navLinks) {
-
       return;
-
     }
 
 
-    // ====================================================
+    // ==================================================
     // Add My Courses Link to Mobile Menu
-    // ====================================================
+    // ==================================================
 
     if (
+
       !navLinks.querySelector(
-        '.mobile-my-courses'
+        ".mobile-my-courses"
       )
+
     ) {
 
 
       const myCoursesLink =
         document.createElement(
-          'a'
+          "a"
         );
 
 
       myCoursesLink.href =
-        '#';
+        "my-courses.html";
 
 
       myCoursesLink.className =
-        'mobile-my-courses';
+        "mobile-my-courses";
 
 
       myCoursesLink.textContent =
-        'My Courses';
-
-
-      myCoursesLink.addEventListener(
-        'click',
-        event => {
-
-
-          event.preventDefault();
-
-
-          alert(
-            'My Courses will be available after the course access system is added.'
-          );
-
-
-        }
-      );
+        "My Courses";
 
 
       navLinks.appendChild(
         myCoursesLink
       );
 
-
     }
 
 
-    // ====================================================
+    // ==================================================
     // Open / Close Mobile Menu
-    // ====================================================
+    // ==================================================
 
     menuButton.addEventListener(
-      'click',
+      "click",
       () => {
 
 
         const isOpen =
           navLinks.classList.toggle(
-            'mobile-active'
+            "mobile-active"
           );
 
 
         menuButton.classList.toggle(
-          'active',
+          "active",
           isOpen
         );
 
 
         menuButton.setAttribute(
-          'aria-expanded',
+          "aria-expanded",
           String(isOpen)
         );
 
 
         menuButton.textContent =
           isOpen
-            ? '✕'
-            : '☰';
+
+            ? "✕"
+
+            : "☰";
 
 
       }
     );
 
 
-    // ====================================================
-    // Close Mobile Menu After Clicking a Link
-    // ====================================================
+    // ==================================================
+    // Close Menu After Clicking Link
+    // ==================================================
 
     navLinks
-      .querySelectorAll('a')
+      .querySelectorAll("a")
       .forEach(link => {
 
 
         link.addEventListener(
-          'click',
+          "click",
           () => {
 
 
             navLinks.classList.remove(
-              'mobile-active'
+              "mobile-active"
             );
 
 
             menuButton.classList.remove(
-              'active'
+              "active"
             );
 
 
             menuButton.setAttribute(
-              'aria-expanded',
-              'false'
+              "aria-expanded",
+              "false"
             );
 
 
             menuButton.textContent =
-              '☰';
+              "☰";
 
 
           }
